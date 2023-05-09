@@ -1,0 +1,19 @@
+.nav {
+    display: flex;
+    height: 10rem;
+    justify-content: space-between;
+    
+
+}
+
+
+.nav__logo img, .nav__icon img {
+    height: 100%;
+}
+
+
+.nav__list {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+}
