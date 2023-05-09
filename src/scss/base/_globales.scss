@@ -13,10 +13,9 @@ body {
     line-height: 1.8;
     background: v.$negro;
     color: v.$blanco;
-    margin: 3rem 2rem;
 }
 p {
-    color: v.$negro;
+    color: v.$blanco;
     font-size: 2rem;
 }
 .contenedor {
@@ -27,6 +26,7 @@ p {
 
 a {
     text-decoration: none;
+    color: v.$blanco;
 }
 
 img,
@@ -34,6 +34,8 @@ picture {
     width: 100%;
     display: block;
 }
+
+
 
 h1, h2, h3 {
     font-family: v.$fuente_principal;

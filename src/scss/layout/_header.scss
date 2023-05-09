@@ -1,0 +1,70 @@
+@use '../base/variables' as v;
+
+
+.slider {
+    width: 100%;
+    height: auto;
+    margin-top: 5rem;
+    overflow: hidden;
+    
+    .slide-track {
+        display: flex;
+        animation: scroll 5s linear infinite;
+        -webkit-animation: scroll 10s linear infinite;
+        width: calc(100%*4);
+    }
+    .slide {
+        background-image: url('../img/patron-lineas.svg');
+        height: 40px;
+        background-repeat: repeat;
+        width: 100%;
+        background-size:contain;
+        
+    }
+}
+
+
+@keyframes scroll {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    100% {
+        -webkit-transform: translateX(-1400px);
+        transform: translateX(-1400px);
+    }
+}
+
+
+
+.header {
+    height: 80vh;
+    margin: 0 2rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    align-items: center;
+
+    h2 {
+        font-weight: v.$black;
+        text-transform: capitalize;
+        font-size: 8rem;
+        text-align: left;
+    }
+
+    img {
+        height: 25rem;
+        width: auto;
+        margin-bottom: 15rem;
+        margin-right: 15rem;
+
+        // img::after {
+        //     position: relative;
+        //     content: '';
+        //     height: 25rem;
+        //     width: 25rem;
+        //     background: v.$blanco;
+        // }
+    }
+
+
+}
