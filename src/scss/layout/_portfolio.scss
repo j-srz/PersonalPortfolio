@@ -1,0 +1,38 @@
+@use '../base/variables' as v;
+
+.main__portfolio {
+    h3 {
+        font-size: 30rem;
+
+        line-height: 30rem;
+        
+        font-weight: v.$bold;
+        text-align: end;
+        // position: relative;
+        // right: -5rem;
+      }
+}
+
+.cards {
+    margin: 0 5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+}
+
+
+.card {
+    display: flex;
+    flex-direction: column;
+
+    p {
+        margin: 0;
+    }
+
+
+    div {
+        border-radius: 1rem;
+        border: .1rem solid v.$blanco;
+        padding: 2rem;
+    }
+}
