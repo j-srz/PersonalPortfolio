@@ -11,12 +11,12 @@ body {
     font-family: v.$fuente_principal;
     font-size: 1.6rem;
     line-height: 1.8;
-    background: v.$negro;
-    color: v.$blanco;
+    background: v.$primario;
+    color: v.$negro;
 }
 p {
-    color: v.$blanco;
-    font-size: 2rem;
+    color: v.$negro;
+    font-size: 1.5rem;
 }
 .contenedor {
     width: 95%;
@@ -26,7 +26,7 @@ p {
 
 a {
     text-decoration: none;
-    color: v.$blanco;
+    color: v.$negro;
 }
 
 img,
@@ -61,3 +61,4 @@ h4 {
 ::-webkit-scrollbar {
     display: none;
 }
+

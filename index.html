@@ -2,96 +2,92 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="build/css/app.css" />
-    <title>Document</title>
+    <meta
+      name="description"
+      content="Portafolio de Jesús Suárez, desarrollador web. Explora mis proyectos y conoce más sobre mi experiencia y habilidades."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/build/css/app.css" />
+    <title>Portafolio | Jesús Suárez</title>
   </head>
   <body>
-    <nav class="nav">
-      <div class="nav__logo">
-        <img src="/build/img/logo.svg" alt="imagen logo" />
-      </div>
-      <ul class="nav__list">
-        <li class="nav__item nav__item--select">
-          <a href="#" class="nav__link">home</a>
-        </li>
-        <li class="nav__item"><a href="#" class="nav__link">about</a></li>
-        <li class="nav__item"><a href="#" class="nav__link">my skills</a></li>
-        <li class="nav__item"><a href="#" class="nav__link">portfolio</a></li>
-        <li class="nav__item"><a href="#" class="nav__link">contact</a></li>
-      </ul>
-      <div class="nav__icon">
-        <img src="/build/img/mundo.svg" alt="imagen mundo" />
-      </div>
-
-      <p class="nav__coords">21°52'50.0"N 102°17'47.5"W</p>
+    <nav class="navegacion-principal">
+      <a href="index.html">
+        <h2>JS</h2>
+      </a>
+      <a href="proyectos.html">Proyectos</a>
     </nav>
 
-    <div class="slider">
-      <div class="slide-track">
-        <div class="slide">
-          <!-- <img src="img.png" alt=""> -->
-        </div>
-      </div>
-    </div>
-
     <header class="header">
-      <h2>&#x3Chi, i’m jesús, web development in progress/&#x3E</h2>
-
-      <img src="/build/img/estrella-4-4.svg" alt="imagen estrella" />
-
-      <!-- <div>
-          <p>scroll down</p>
-      
-        </div> -->
+      <h1>Hola. 👋<br />Soy Jesús</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti
+        ducimus laudantium, quidem quis, quod voluptas nobis commodi pariatur,
+        necessitatibus facere eius ipsam ipsa. Perspiciatis officia totam
+        tenetur non natus dolorum.
+      </p>
+      <div class="btns">
+        <a href="#" class="btn btn-primario">
+          <i class="fa-solid fa-download fa-xs"></i>
+          Descargar CV
+        </a>
+        <a href="#" class="btn btn-negro">
+          <i class="fa-brands fa-github"></i>
+          GitHub
+        </a>
+      </div>
     </header>
 
-    <main class="main">
-      <section class="main__about">
-        <h3>about</h3>
-        <div class="about__contenido">
-          <div>
+    <main>
+      <section>
+        <h2>Proyectos 🚀</h2>
+
+        <div class="proyectos">
+          <div class="proyecto">
+            <h3>HeroApp</h3>
+            <p>React, Javascript, HTML, Bootstrap, Css</p>
             <p>
-              i am a 17-year-old programming student based in aguascalientes, mexico,
-              passionate about creatively solving problems through code.
+              App que recupera heroes de un JSON y los muestra en varias
+              pantallas con una barra de busqueda y filtros para bucar los
+              heroes
             </p>
-            <p>
-              my main focus is on front-end programming, and i am interested in
-              learning more about back-end development to expand my skills and
-              knowledge.
-            </p>
-            <p>
-              in addition, i enjoy listening to music and watching series in my free
-              time.
-            </p>
-            <hr>
-            <a href="#">download CV</a>
-          </div>
-          <div class="about__line">
-            <p>/</p>
-          </div>
-      </section>
-      <section class="main__skills">
-        <h3>my skills</h3>
-      </section>
-      <section class="main__portfolio">
-        <h3>portfolio</h3>
-        <div class="cards">
-          <div class="card">
-            <p>portfolio</p>
-            <div>
-              <img src="#" alt="">
-              <h5>portfolio</h5>
-              <p>SASS, Javascript, HTML</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta omnis magnam harum veritatis in architecto earum officiis, animi cumque consectetur, unde assumenda corporis quos odit enim tenetur necessitatibus, corrupti maxime!</p>
-              <a href="#">view code</a>
-              <a href="#">view project</a>
+            <div class="btns">
+              <a href="#"> Codigo</a>
+              <a href="#">Ver</a>
             </div>
           </div>
         </div>
       </section>
-      </div>
+      <section>
+        <h2>Contactame 📬</h2>
+        <form>
+          <label for="name">Nombre:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">Correo Electrónico:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="message">Mensaje:</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+
+          <button type="submit">Enviar</button>
+        </form>
+      </section>
     </main>
+    <footer>
+      <p>Hecho con 💻, ☕ y pasión por el código.</p>
+      <p>© 2025 Jesús Suárez - Todos los derechos reservados</p>
+      <p>Ultima actualización 15 de Enero 2025</p>
+    </footer>
+    <script
+      src="https://kit.fontawesome.com/20dbefd043.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

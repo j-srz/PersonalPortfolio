@@ -34,7 +34,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser-js": "^5.2.2",
     "gulp-webp": "^4.0.1",
-    "sass": "^1.62.1",
+    "sass": "^1.83.4",
     "terser": "^5.3.8"
   }
 }

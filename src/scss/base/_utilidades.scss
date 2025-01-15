@@ -1,4 +1,5 @@
 @use '../base/variables' as v;
+@use 'sass:color';
 
 .seccion {
     margin-top: calc(v.$separacion / 2);
@@ -12,4 +13,49 @@
 .alinear-derecha {
     display: flex;
     justify-content: flex-end;
+}
+
+
+.btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    
+}
+
+
+
+.btn {
+    background: #FFF;
+    padding: .7rem 1.8rem;
+    border-radius: 1rem;
+    border: 0;
+    font-size: 1.3rem;
+}
+
+
+
+.btn-primario {
+    background: v.$secundario;
+    color: v.$primario;
+
+    &:hover {
+        cursor: pointer;
+        background: color.scale(v.$secundario, $lightness: -15%);
+    }
+    transition: background 0.3s ease;
+}
+
+.btn-negro {
+background: v.$gris-oscuro;
+color: v.$primario;
+transition: background 0.3s ease, color 0.3s ease, border 0.1s ease;
+
+&:hover {
+    cursor: pointer;
+    background: v.$primario;
+    color: v.$gris-oscuro;
+    border: 2px solid v.$gris-oscuro;
+}
 }
