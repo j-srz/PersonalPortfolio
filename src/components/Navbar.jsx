@@ -4,7 +4,7 @@ import iconWhite from '../assets/Icono_Principal_Bl.png';
 const NAV_LINKS = [
   { label: 'Proyectos', id: 'proyectos' },
   { label: 'Sobre mi', id: 'sobre-mi' },
-  { label: 'Mi blog', id: 'mi-blog', external: true },
+  { label: 'Mi blog', id: 'mi-blog', external: true, href: 'https://j-srz.github.io/blog/' },
   { label: 'Contacto', id: 'contacto' }
 ];
 
@@ -86,7 +86,9 @@ export default function Navbar() {
           return (
             <li key={link.label} className={link.id !== 'mi-blog' ? 'hidden md:block' : ''}>
               <a
-                href={`#${link.id}`}
+                href={link.external ? link.href : `#${link.id}`}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
                 onClick={(e) => handleClick(e, link)}
                 className={`font-miranda transition-all duration-300 text-sm ${
                   isActive 
