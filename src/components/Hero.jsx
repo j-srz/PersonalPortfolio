@@ -1,4 +1,5 @@
 import TypewriterText from './TypewriterText';
+import { motion } from 'framer-motion';
 import flor1 from '../assets/Flor_1 copia.png';
 import flor2 from '../assets/Flor_2 copia.png';
 import ScrollArrow from './ScrollArrow';
@@ -21,9 +22,14 @@ export default function Hero() {
       <div className="w-full flex flex-col justify-center">
         <TypewriterText />
 
-        <p className="font-miranda text-gray-300 text-base md:text-lg max-w-xl leading-relaxed">
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="font-miranda text-gray-300 text-base md:text-lg max-w-xl leading-relaxed"
+        >
           Soy Jesús, desarrollador de software y estudiante de TICs en el ITA, a un semestre de graduarme. Me apasiona construir soluciones tecnológicas completas, desarrollando proyectos independientes que abarcan desde aplicaciones web hasta implementaciones de bases de datos y redes.
-        </p>
+        </motion.p>
       </div>
 
       <ScrollArrow />

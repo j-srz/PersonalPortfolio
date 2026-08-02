@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Atom, Terminal, Globe, Plus, GitBranch, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt } from 'react-icons/fa';
 import { SiTailwindcss, SiVite, SiJavascript, SiTypescript } from 'react-icons/si';
@@ -24,6 +25,22 @@ const iconMap = {
 
 export default function Projects() {
   const scrollRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth);
+    }
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener('resize', checkScroll);
+    return () => window.removeEventListener('resize', checkScroll);
+  }, []);
 
   const scrollLeft = () => {
     if (scrollRef.current) {
@@ -40,36 +57,53 @@ export default function Projects() {
   return (
     <section id="proyectos" className="w-full min-h-screen shrink-0 relative z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 snap-start pt-32 pb-10">
       <div className="flex justify-between items-center mb-12 mt-16 md:mt-0">
-        <h2 className="font-geist text-white text-4xl md:text-5xl">Proyectos</h2>
+        <motion.h2 
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="font-geist text-white text-4xl md:text-5xl"
+        >
+          Proyectos
+        </motion.h2>
         
         {/* Controles de Carrusel */}
-        <div className="flex gap-4">
-          <button 
-            onClick={scrollLeft}
-            className="flex items-center justify-center bg-transparent border border-white/30 text-white p-2 rounded-md hover:bg-white/10 hover:border-white hover:shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
-            aria-label="Anterior proyecto"
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <button 
-            onClick={scrollRight}
-            className="flex items-center justify-center bg-transparent border border-white/30 text-white p-2 rounded-md hover:bg-white/10 hover:border-white hover:shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
-            aria-label="Siguiente proyecto"
-          >
-            <ChevronRight size={24} />
-          </button>
+        <div className="flex gap-4 min-h-[42px]">
+          {canScrollLeft && (
+            <button 
+              onClick={scrollLeft}
+              className="flex items-center justify-center bg-transparent border border-white/30 text-white p-2 rounded-md hover:bg-white/10 hover:border-white hover:shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
+              aria-label="Anterior proyecto"
+            >
+              <ChevronLeft size={24} />
+            </button>
+          )}
+          {canScrollRight && (
+            <button 
+              onClick={scrollRight}
+              className="flex items-center justify-center bg-transparent border border-white/30 text-white p-2 rounded-md hover:bg-white/10 hover:border-white hover:shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
+              aria-label="Siguiente proyecto"
+            >
+              <ChevronRight size={24} />
+            </button>
+          )}
         </div>
       </div>
       
       {/* Carrusel */}
       <div 
         ref={scrollRef}
+        onScroll={checkScroll}
         className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {projectsData.map((project) => (
-          <div 
-            key={project.id} 
+        {projectsData.map((project, index) => (
+          <motion.div 
+            key={project.id}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, delay: index * 0.15 }}
             className="flex flex-col group w-[85vw] sm:w-[300px] md:w-[400px] max-w-[450px] snap-center shrink-0"
           >
             {/* Imagen del Proyecto */}
@@ -133,7 +167,7 @@ export default function Projects() {
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       

@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { TerminalSquare } from 'lucide-react';
+import dragon from '../assets/Dragon_BL.png';
 
 export default function Contact() {
   const [isNameHovered, setIsNameHovered] = useState(false);
@@ -33,16 +35,43 @@ export default function Contact() {
   };
 
   return (
-    <section id="contacto" className="w-full h-screen shrink-0 relative z-10 flex flex-col justify-between px-6 md:px-16 lg:px-24 snap-start pt-24 pb-6">
+    <section id="contacto" className="w-full h-screen shrink-0 relative z-10 flex flex-col justify-between px-6 md:px-16 lg:px-24 snap-start pt-24 pb-6 overflow-hidden">
 
-      <div className="flex-grow flex flex-col items-center justify-center max-w-2xl mx-auto w-full">
-        <h2 className="font-geist text-white text-3xl md:text-5xl mb-2 text-center">Conectemos</h2>
-        <p className="font-miranda text-gray-400 text-sm md:text-base mb-8 text-center max-w-lg">
+      {/* ── Dragón lado derecho ── */}
+      <div className="absolute -rotate-60 top-3/4 -translate-y-1/2 -right-30 -md:right-1 w-[400px] md:w-[700px] h-[400px] md:h-[600px] pointer-events-none opacity-10 md:opacity-20 z-0">
+        <img src={dragon} alt="" className="w-full h-full object-contain object-center-right" aria-hidden="true" />
+      </div>
+
+      <div className="flex-grow flex flex-col items-center justify-center max-w-2xl mx-auto w-full relative z-10">
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="font-geist text-white text-3xl md:text-5xl mb-2 text-center"
+        >
+          Conectemos
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="font-miranda text-gray-400 text-sm md:text-base mb-8 text-center max-w-lg"
+        >
           ¿Tienes una idea en mente o buscas un desarrollador apasionado para tu equipo?
           Déjame un mensaje.
-        </p>
+        </motion.p>
 
-        <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
+        <motion.form
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="w-full flex flex-col gap-4"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-col gap-1">
             <label className="font-miranda text-white text-[10px] tracking-widest uppercase">/ Nombre</label>
             <input
@@ -84,26 +113,9 @@ export default function Contact() {
           {status === 'error' && (
             <p className="text-red-500 text-xs text-center font-geist mt-2">Hubo un error al enviar el mensaje. Inténtalo de nuevo.</p>
           )}
-        </form>
+        </motion.form>
       </div>
 
-      {/* Footer integrado */}
-      <footer className="w-full pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div
-          className="flex items-center gap-2 cursor-pointer group"
-          onMouseEnter={() => setIsNameHovered(true)}
-          onMouseLeave={() => setIsNameHovered(false)}
-        >
-          <TerminalSquare className="text-white" size={18} />
-          <span className="font-geist text-white text-sm transition-all duration-300">
-            {isNameHovered ? '@iosoishui' : 'Jesús Suárez'}
-          </span>
-        </div>
-
-        <div className="font-miranda text-gray-500 text-xs md:text-sm text-center">
-          © {new Date().getFullYear()} - Construido con pasión, código y mucho café.
-        </div>
-      </footer>
     </section>
   );
 }

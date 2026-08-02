@@ -1,4 +1,5 @@
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Luz from './components/Luz';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
@@ -15,6 +16,7 @@ export default function App() {
       className="h-[100dvh] w-full text-white relative overflow-x-hidden overflow-y-scroll snap-y snap-mandatory"
     >
       <Navbar />
+      <Footer />
       <Luz />
       <ClickEffects />
       <GridShape matrix={MATRIX} />

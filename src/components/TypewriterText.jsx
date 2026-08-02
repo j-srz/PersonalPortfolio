@@ -7,7 +7,7 @@ const PAUSE_DURATION = 2000;
 
 export default function TypewriterText() {
   const [displayText, setDisplayText] = useState('');
-  const [greetingIndex, setGreetingIndex] = useState(0);
+  const [greetingIndex, setGreetingIndex] = useState(() => Math.floor(Math.random() * GREETINGS.length));
   const [isDeleting, setIsDeleting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 

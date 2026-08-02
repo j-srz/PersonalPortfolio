@@ -3,6 +3,23 @@ import { useEffect, useState, useMemo, useRef } from 'react';
 export default function GridShape({ matrix, scale = 1, color = '#ff2222', coreColor = '#ffffff' }) {
   const [pos, setPos] = useState({ x: -9999, y: -9999 });
   const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadTime, setLoadTime] = useState(0);
+
+  // Efecto de carga (scanner de izquierda a derecha)
+  useEffect(() => {
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      if (elapsed > 1500) {
+        setIsLoading(false);
+        clearInterval(interval);
+      } else {
+        setLoadTime(elapsed);
+      }
+    }, 30); // Actualización rápida para el escáner
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,7 +78,10 @@ export default function GridShape({ matrix, scale = 1, color = '#ff2222', coreCo
 
     const generatePattern = () => {
       const newPattern = new Set();
-      const t = Date.now() / 2000; // Tiempo para animar fluidamente las ecuaciones
+      const t = Date.now() / 2000; 
+      
+      const numCols = matrix[0].length;
+      const scanCol = (loadTime / 1500) * numCols;
 
       allPixels.forEach(({ r, c }) => {
         // Interferencia de múltiples ondas para crear formas orgánicas (tipo "Lámpara de lava")
@@ -78,20 +98,27 @@ export default function GridShape({ matrix, scale = 1, color = '#ff2222', coreCo
         // Sumamos las ondas. El valor oscilará entre -4 y 4
         const combined = wave1 + wave2 + wave3 + wave4;
 
-        // Solo encendemos los píxeles según el estado (normal o invertido)
+        // Base orgánica
         const isActive = inverted ? combined < -0.5 : combined > 0.5;
-        if (isActive) {
-          newPattern.add(`${r}-${c}`);
+        
+        if (!isLoading) {
+          if (isActive) newPattern.add(`${r}-${c}`);
+        } else {
+          // Efecto Loading: Barra vertical de escaneo + revelar silueta
+          const isScanningEdge = Math.abs(c - scanCol) <= 1; // Un láser de 2-3 píxeles de ancho
+          if (isScanningEdge || (isActive && c < scanCol)) {
+            newPattern.add(`${r}-${c}`);
+          }
         }
       });
       setPattern(newPattern);
     };
 
     generatePattern();
-    // Actualizamos cada segundo, pero la transición CSS de 2000ms lo hará ver como líquido
-    const interval = setInterval(generatePattern, 1000);
+    // Actualizamos rápidamente (aprox 20fps) para una fluidez perfecta
+    const interval = setInterval(generatePattern, 50);
     return () => clearInterval(interval);
-  }, [matrix, isDesktop, inverted]);
+  }, [matrix, isDesktop, inverted, isLoading, loadTime]);
 
   const pixels = useMemo(() => {
     if (pos.x === -9999 || pattern.size === 0) return [];
@@ -104,7 +131,7 @@ export default function GridShape({ matrix, scale = 1, color = '#ff2222', coreCo
             <div
               key={`${rowIndex}-${colIndex}`}
               ref={(el) => (pixelsRef.current[`${rowIndex}-${colIndex}`] = el)}
-              className="absolute pointer-events-none transition-opacity duration-[2000ms] ease-in-out"
+              className="absolute pointer-events-none transition-opacity duration-[150ms] ease-in-out"
               style={{
                 top: `${pos.y + rowIndex * 12 * scale}px`,
                 left: `${pos.x + colIndex * 12 * scale}px`,

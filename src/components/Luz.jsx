@@ -52,9 +52,11 @@ export default function Luz() {
           backgroundColor: 'transparent',
           backgroundImage: `
             radial-gradient(circle 35px at ${pos.x}px ${pos.y}px, rgba(255, 34, 34, 0.2) 20%, transparent 100%),
-            radial-gradient(circle 80px at var(--arrow-x, -999px) var(--arrow-y, -999px), rgba(255, 34, 34, var(--arrow-opacity, 0)) 20%, transparent 100%)
+            radial-gradient(circle 60px at var(--arrow-x, -999px) var(--arrow-y-1, -999px), rgba(255, 34, 34, var(--arrow-opacity-1, 0)) 20%, transparent 100%),
+            radial-gradient(circle 60px at var(--arrow-x, -999px) var(--arrow-y-2, -999px), rgba(255, 34, 34, var(--arrow-opacity-2, 0)) 20%, transparent 100%),
+            radial-gradient(circle 60px at var(--arrow-x, -999px) var(--arrow-y-3, -999px), rgba(255, 34, 34, var(--arrow-opacity-3, 0)) 20%, transparent 100%)
           `,
-          backgroundSize: '100% 100%, 100% 100%',
+          backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%',
         }}
       />
 
