@@ -4,6 +4,9 @@ import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt } from 'react-icons/fa';
 import { SiTailwindcss, SiVite, SiJavascript, SiTypescript } from 'react-icons/si';
 import projectsData from '../data/projects.json';
 
+// Cargar todas las imágenes de la carpeta assets para que Vite las reconozca al compilar
+const images = import.meta.glob('../assets/*.{png,jpg,jpeg,svg}', { eager: true });
+
 // Mapeo simple de nombres de iconos en el JSON a componentes reales
 const iconMap = {
   React: FaReact,
@@ -72,7 +75,7 @@ export default function Projects() {
             {/* Imagen del Proyecto */}
             <div className="relative rounded-lg overflow-hidden border border-gray-800 transition-all duration-300 group-hover:border-gray-500 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
               <img 
-                src={`/src/assets/${project.image}`} 
+                src={images[`../assets/${project.image}`]?.default || ''} 
                 alt={project.title} 
                 className="w-full h-auto object-cover aspect-video"
               />
