@@ -5,8 +5,12 @@ export default function ClickEffects() {
 
   useEffect(() => {
     const handleClick = (e) => {
-      const clickX = Math.round(e.clientX / 12) * 12;
-      const clickY = Math.round(e.clientY / 12) * 12;
+      const container = document.getElementById('scroll-container');
+      const scrollY = container ? container.scrollTop : 0;
+      const scrollX = container ? container.scrollLeft : 0;
+      
+      const clickX = Math.round((e.clientX + scrollX) / 12) * 12;
+      const clickY = Math.round((e.clientY + scrollY) / 12) * 12;
       const explosionId = Date.now();
       
       const newParticles = [];
@@ -65,7 +69,7 @@ export default function ClickEffects() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="absolute top-0 left-0 w-full h-[400vh] pointer-events-none z-0 overflow-hidden">
       {particles.map((p) => {
         return (
           <div
