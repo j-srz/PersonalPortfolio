@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import PostPattern from './PostPattern';
 
-const API_URL = 'https://suarezliceajesus.dev/blog/api/posts/index.json';
-const BASE_URL = 'https://suarezliceajesus.dev/blog';
+const API_URL = 'https://j-srz.github.io/blog/api/posts/index.json';
+const BASE_URL = 'https://j-srz.github.io/blog';
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
