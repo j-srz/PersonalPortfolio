@@ -6,20 +6,37 @@ export default function Luz() {
   const pixelRef = useRef(null);
 
   useEffect(() => {
+    let isTouch = false;
+
     const updatePos = () => {
-      if (clientPosRef.current.x === -9999) return;
       const container = document.getElementById('scroll-container');
       const scrollTop = container ? container.scrollTop : 0;
       requestAnimationFrame(() => {
-        setPos({
-          x: clientPosRef.current.x,
-          y: clientPosRef.current.y + scrollTop
-        });
+        if (clientPosRef.current.x === -9999) {
+          setPos({ x: -9999, y: -9999 });
+        } else {
+          setPos({
+            x: clientPosRef.current.x,
+            y: clientPosRef.current.y + scrollTop
+          });
+        }
       });
     };
 
     const handleMouseMove = (e) => {
+      if (isTouch) return;
       clientPosRef.current = { x: e.clientX, y: e.clientY };
+      updatePos();
+    };
+
+    const handleMouseLeave = () => {
+      clientPosRef.current = { x: -9999, y: -9999 };
+      updatePos();
+    };
+
+    const handleTouchStart = () => {
+      isTouch = true;
+      clientPosRef.current = { x: -9999, y: -9999 };
       updatePos();
     };
 
@@ -28,11 +45,15 @@ export default function Luz() {
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
     // Usamos capture (true) para interceptar el evento de scroll del contenedor hijo
     document.addEventListener('scroll', handleScroll, true); 
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('scroll', handleScroll, true);
     };
   }, []);

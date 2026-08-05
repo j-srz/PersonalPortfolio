@@ -55,7 +55,7 @@ export default function Projects() {
   };
 
   return (
-    <section id="proyectos" className="w-full min-h-screen shrink-0 relative z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 snap-start pt-32 pb-10">
+    <section id="proyectos" className="w-full min-h-screen shrink-0 relative z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 snap-start py-20 md:py-24">
       <div className="flex justify-between items-center mb-12 mt-16 md:mt-0">
         <motion.h2 
           initial={{ opacity: 0, x: -20 }}

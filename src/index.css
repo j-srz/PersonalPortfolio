@@ -8,3 +8,24 @@ html, body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/* ===== POST DNA PATTERN ===== */
+.post-dna-wrapper {
+  width: 100%;
+}
+
+.post-dna {
+  display: grid;
+}
+
+.post-dna-cell {
+  /* No border-radius, perfectly square */
+}
+
+.post-dna-cell.filled {
+  background-color: #e63946; /* Matching the red color from the blog */
+}
+
+.post-dna-cell.empty {
+  background-color: transparent;
+}

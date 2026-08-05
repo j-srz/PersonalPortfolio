@@ -35,7 +35,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contacto" className="w-full h-screen shrink-0 relative z-10 flex flex-col justify-between px-6 md:px-16 lg:px-24 snap-start pt-24 pb-6 overflow-hidden">
+    <section id="contacto" className="w-full h-screen shrink-0 relative z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 snap-start py-20 md:py-24 overflow-hidden">
 
       {/* ── Dragón lado derecho ── */}
       <div className="absolute -rotate-60 top-3/4 -translate-y-1/2 -right-30 -md:right-1 w-[400px] md:w-[700px] h-[400px] md:h-[600px] pointer-events-none opacity-10 md:opacity-20 z-0">

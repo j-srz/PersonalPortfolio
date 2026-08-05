@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import PostPattern from './PostPattern';
 
-const API_URL = 'https://j-srz.github.io/blog/api/posts/index.json';
-const BASE_URL = 'https://j-srz.github.io/blog';
+const API_URL = 'https://suarezliceajesus.dev/blog/api/posts/index.json';
+const BASE_URL = 'https://suarezliceajesus.dev/blog';
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -23,14 +24,22 @@ const defaultDescription = "Todo esto hice y asi paso y no se paso y esto y mas 
 
 export default function SobreMi() {
   const [posts, setPosts] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const scrollRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth);
+    }
+  };
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1280);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    checkScroll();
+    window.addEventListener('resize', checkScroll);
+    return () => window.removeEventListener('resize', checkScroll);
   }, []);
 
   useEffect(() => {
@@ -56,14 +65,28 @@ export default function SobreMi() {
         );
         
         setPosts(postsWithContent);
+        // Wait for render, then check scroll
+        setTimeout(checkScroll, 100);
       })
       .catch((err) => console.error("Error fetching posts:", err));
   }, []);
 
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -420, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 420, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="sobre-mi" className="w-full min-h-screen shrink-0 relative z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 snap-start pt-32 pb-10">
+    <section id="sobre-mi" className="w-full min-h-screen shrink-0 relative z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 snap-start py-20 md:py-24">
       
-      {/* Título de la sección y Botón */}
+      {/* Título de la sección */}
       <div className="flex justify-between items-center mb-12 mt-16 md:mt-0">
         <motion.h2 
           initial={{ opacity: 0, x: -20 }}
@@ -75,112 +98,98 @@ export default function SobreMi() {
           Sobre mi
         </motion.h2>
 
-        <motion.a 
-          href={BASE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-md font-miranda font-medium text-sm hover:bg-gray-200 transition-colors"
-        >
-          <ExternalLink size={18} />
-          <span className="hidden sm:inline">Visitar Blog</span>
-          <span className="sm:hidden">Blog</span>
-        </motion.a>
+        {/* Controles de Carrusel */}
+        <div className="flex gap-4 min-h-[42px]">
+          {canScrollLeft && (
+            <button 
+              onClick={scrollLeft}
+              className="flex items-center justify-center bg-transparent border border-white/30 text-white p-2 rounded-md hover:bg-white/10 hover:border-white hover:shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
+              aria-label="Anterior"
+            >
+              <ChevronLeft size={24} />
+            </button>
+          )}
+          {canScrollRight && posts.length > 0 && (
+            <button 
+              onClick={scrollRight}
+              className="flex items-center justify-center bg-transparent border border-white/30 text-white p-2 rounded-md hover:bg-white/10 hover:border-white hover:shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300"
+              aria-label="Siguiente"
+            >
+              <ChevronRight size={24} />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Contenedor de las tarjetas */}
-      <div className="flex-grow flex flex-col xl:flex-row items-center justify-center gap-6 xl:gap-10 relative w-full h-[550px] xl:h-auto pb-8 mt-4 xl:mt-0">
-          {posts.map((post, index) => {
-            const rotations = [-2, 3, -1];
-            
-            // Lógica para la pila en móvil:
-            const stackPos = (index - activeIndex + posts.length) % posts.length;
-            
-            const mobileAnimate = {
-              zIndex: 30 - stackPos * 10,
-              scale: 1 - stackPos * 0.05,
-              y: stackPos * 25,
-              opacity: 1 - stackPos * 0.3,
-              rotate: rotations[index % 3]
-            };
+      {/* Contenedor relativo para los gradientes y el carrusel */}
+      <div className="relative w-full">
+        {/* Gradiente Izquierdo */}
+        <div className={`absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10 pointer-events-none transition-opacity duration-500 ${canScrollLeft ? 'opacity-100' : 'opacity-0'}`} />
+        
+        {/* Gradiente Derecho */}
+        <div className={`absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10 pointer-events-none transition-opacity duration-500 ${canScrollRight && posts.length > 0 ? 'opacity-100' : 'opacity-0'}`} />
 
-            const desktopAnimate = {
-              zIndex: 10,
-              scale: 1,
-              y: 0,
-              opacity: 1,
-              rotate: rotations[index % 3]
-            };
-
-            return (
-              <motion.div 
-                key={post.slug}
-                onClick={() => {
-                  if (isMobile) {
-                    setActiveIndex((prev) => (prev + 1) % posts.length);
-                  }
-                }}
-                className={`w-[300px] md:w-[380px] xl:w-auto xl:flex-1 ${isMobile ? 'absolute cursor-pointer left-0 right-0 mx-auto top-10 md:top-20' : 'block'}`}
-                initial={{ opacity: 0, scale: 0.95, y: 50 }}
-                animate={isMobile ? mobileAnimate : desktopAnimate}
-                whileHover={!isMobile ? { rotate: 0, scale: 1.02 } : {}}
-                transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-              >
-              {/* Tarjeta */}
-              <div className="w-full h-full min-h-[420px] bg-[#111] border border-white/20 rounded-lg p-4 shadow-2xl flex flex-col relative overflow-hidden">
-                
-                {/* Listón (Ribbon) */}
-                <svg width="32" height="48" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute -top-1 left-8 drop-shadow-md z-30">
-                  <path d="M0 0H32V48L16 38L0 48V0Z" fill="white"/>
-                </svg>
-
-                {/* Imagen del post (con fallback) */}
-                <div className="w-full h-52 md:h-56 border border-white/20 rounded-md overflow-hidden relative z-10 bg-neutral-900">
-                  
-                  {/* Fecha */}
-                  <div className="absolute top-[15px] right-[15px] text-white text-xl font-caveat rotate-[-4deg] z-20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                    {formatDate(post.date)}
-                  </div>
-
-                  {post.main_img ? (
-                    <img 
-                      src={`${BASE_URL}${post.main_img}`} 
-                      alt={post.title} 
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/30 text-sm font-geist">
-                      No Image
-                    </div>
-                  )}
-                </div>
-
-                {/* Tags */}
-                <div className="flex gap-2 mt-4 overflow-x-auto no-scrollbar">
-                  {post.tags && post.tags.slice(0, 3).map((tag, i) => (
-                    <span key={i} className="px-2 py-1 rounded-sm border border-white/20 text-[10px] md:text-xs text-neutral-300 whitespace-nowrap font-['Times_New_Roman',_Times,_serif]">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Título y texto */}
-                <h3 className="mt-3 text-lg md:text-xl font-bold font-['Times_New_Roman',_Times,_serif] text-white leading-tight">
+        {/* Contenedor de las tarjetas */}
+        <div 
+          ref={scrollRef}
+          onScroll={checkScroll}
+          className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 px-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+        {posts.map((post, index) => (
+          <motion.div 
+            key={post.slug}
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: index * 0.15 }}
+            className="bg-white rounded-xl w-[90vw] md:w-[750px] shrink-0 snap-center p-4 md:p-5 flex flex-col md:flex-row gap-6 shadow-2xl"
+          >
+            {/* Lado izquierdo (Texto + DNA) */}
+            <div className="w-full md:w-[45%] flex flex-col justify-between px-2 pt-2">
+              <div>
+                <h3 className="text-[2rem] md:text-[2.2rem] font-bold font-['Times_New_Roman',_Times,_serif] text-black leading-tight mb-2">
                   {post.title}
                 </h3>
-                
-                <p className="mt-2 text-xs md:text-sm text-neutral-400 font-['Times_New_Roman',_Times,_serif] line-clamp-3 leading-relaxed">
+                <p className="text-gray-500 text-sm mb-3">
+                  {formatDate(post.date)}
+                </p>
+                <hr className="border-gray-200 mb-4" />
+                <p className="text-gray-800 text-sm md:text-base leading-snug line-clamp-6">
                   {post.excerpt || defaultDescription}
                 </p>
-                
               </div>
-            </motion.div>
-            );
-          })}
+              
+              <div className="mt-6 w-full mb-1">
+                <PostPattern dna={post.dna} baseSize={12} gap={3} />
+              </div>
+            </div>
+
+            {/* Lado derecho (Imagen) */}
+            <div className="w-full md:w-[55%] h-[300px] md:h-[400px] rounded-lg overflow-hidden bg-gray-100 shrink-0">
+              {post.main_img ? (
+                <img 
+                  src={`${BASE_URL}${post.main_img}`} 
+                  alt={post.title} 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-gray-400 font-miranda">
+                  Sin imagen
+                </div>
+              )}
+            </div>
+          </motion.div>
+        ))}
+        </div>
       </div>
+      
+      {/* Ocultar barra de scroll en navegadores basados en webkit */}
+      <style dangerouslySetInnerHTML={{__html: `
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}} />
     </section>
   );
 }
