@@ -143,7 +143,7 @@ export default function SobreMi() {
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: index * 0.15 }}
-            className="bg-white rounded-xl w-[90vw] md:w-[750px] shrink-0 snap-center p-4 md:p-5 flex flex-col md:flex-row gap-6 shadow-2xl"
+            className="bg-white rounded-xl w-[85vw] md:w-[750px] shrink-0 snap-center p-4 md:p-5 flex flex-col md:flex-row gap-4 md:gap-6 shadow-2xl"
           >
             {/* Lado izquierdo (Texto + DNA) */}
             <div className="w-full md:w-[45%] flex flex-col justify-between px-2 pt-2">
@@ -155,18 +155,18 @@ export default function SobreMi() {
                   {formatDate(post.date)}
                 </p>
                 <hr className="border-gray-200 mb-4" />
-                <p className="text-gray-800 text-sm md:text-base leading-snug line-clamp-6">
+                <p className="text-gray-800 text-sm md:text-base leading-snug line-clamp-3 md:line-clamp-6">
                   {post.excerpt || defaultDescription}
                 </p>
               </div>
               
-              <div className="mt-6 w-full mb-1">
+              <div className="mt-4 md:mt-6 w-full mb-1 hidden md:block">
                 <PostPattern dna={post.dna} baseSize={12} gap={3} />
               </div>
             </div>
 
             {/* Lado derecho (Imagen) */}
-            <div className="w-full md:w-[55%] h-[300px] md:h-[400px] rounded-lg overflow-hidden bg-gray-100 shrink-0">
+            <div className="w-full md:w-[55%] h-[240px] md:h-[400px] rounded-lg overflow-hidden bg-gray-100 shrink-0">
               {post.main_img ? (
                 <img 
                   src={`${BASE_URL}${post.main_img}`} 
